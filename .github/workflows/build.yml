@@ -1,9 +1,6 @@
 name: Build Android App
 
-on:
-  push:
-    branches:
-      - main  # Trigger on pushes to the main branch
+on: [push]
 
 jobs:
   build:
@@ -17,7 +14,7 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        java-version: '8'
+        java-version: '8'  # Use Java 8
         distribution: 'temurin'
 
     - name: Set up Python
@@ -48,13 +45,3 @@ jobs:
     - name: Build Android App
       run: |
         buildozer -v android debug | tee build_output.log
-
-    - name: List APKs
-      run: |
-        ls -la bin/
-
-    - name: Upload APK as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: android-apk
-        path: bin/*.apk
