@@ -1,9 +1,9 @@
 name: Build Android App
 
-on: 
+on:
   push:
     branches:
-      - main  # Specify the branch to trigger the build
+      - main  # Trigger on pushes to the main branch
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        java-version: '8'  # Use Java 8
+        java-version: '8'
         distribution: 'temurin'
 
     - name: Set up Python
