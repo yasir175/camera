@@ -30,9 +30,13 @@ jobs:
         pip install --upgrade pip
         pip install buildozer python-for-android
 
+    - name: Ensure Buildozer directory structure
+      run: |
+        mkdir -p /home/runner/work/camera/camera/.buildozer/android/platform
+
     - name: Clean Buildozer
       run: |
-        buildozer android clean
+        buildozer android clean || true
 
     - name: Build Android App
       run: |
