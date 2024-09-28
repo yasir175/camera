@@ -25,10 +25,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-python-
 
-    - name: Install Buildozer and python-for-android
+    - name: Install Buildozer, python-for-android, and Cython
       run: |
         pip install --upgrade pip
-        pip install buildozer python-for-android
+        pip install buildozer python-for-android cython
 
     - name: Ensure Buildozer directory structure
       run: |
