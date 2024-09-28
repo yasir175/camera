@@ -5,16 +5,16 @@ title = Project 1
 # (str) Package name
 package.name = project
 
-# (str) Package domain (needed for android/ios packaging)
+# (str) Package domain
 package.domain = org.test
 
-# (str) Source code where the main.py live
+# (str) Source code where the main.py lives
 source.dir = .
 
-# (list) Source files to include (let empty to include all the files)
+# (list) Source files to include (leave empty to include all files)
 source.include_exts = py,png,jpg,kv,atlas
 
-# (str) Application versioning (method 1)
+# (str) Application versioning
 version = 0.1
 
 # (list) Application requirements
@@ -26,12 +26,12 @@ orientation = portrait
 # (list) Permissions
 android.permissions = CAMERA, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
-# (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
+# (list) The Android archs to build for
 android.archs = arm64-v8a, armeabi-v7a
 
 [buildozer]
-# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
+# (int) Log level
 log_level = 2
 
-# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
+# (int) Display warning if buildozer is run as root
 warn_on_root = 1
