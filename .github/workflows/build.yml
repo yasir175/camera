@@ -5,25 +5,11 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Set a timeout for the job
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up Java JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-
-    - name: Set up Android SDK
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y unzip wget
-        wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk/cmdline-tools
-        yes | $HOME/android-sdk/cmdline-tools/tools/bin/sdkmanager --sdk_root=$HOME/android-sdk --install "platform-tools" "build-tools;31.0.0"
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -33,21 +19,15 @@ jobs:
     - name: Cache Python packages
       uses: actions/cache@v2
       with:
-        path: |
-          ~/.cache/pip
-          ~/.buildozer
+        path: ~/.cache/pip
         key: ${{ runner.os }}-python-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-python-
 
-    - name: Install Buildozer, python-for-android, and Cython
+    - name: Install Buildozer and python-for-android
       run: |
         pip install --upgrade pip
         pip install buildozer python-for-android cython
-
-    - name: Ensure Buildozer directory structure
-      run: |
-        mkdir -p /home/runner/work/camera/camera/.buildozer/android/platform
 
     - name: Clean Buildozer
       run: |
