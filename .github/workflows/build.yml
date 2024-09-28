@@ -1,6 +1,9 @@
 name: Build Android App
 
-on: [push]
+on: 
+  push:
+    branches:
+      - main  # Specify the branch to trigger the build
 
 jobs:
   build:
