@@ -38,8 +38,8 @@ jobs:
     - name: Install Android SDK and Build Tools
       run: |
         sudo apt-get install -y android-sdk
-        sudo apt-get install -y android-sdk-build-tools
-        sudo apt-get install -y android-tools-adb || true  # Install ADB as well
+        echo "y" | sdkmanager --licenses  # Accept licenses
+        sdkmanager "build-tools;31.0.0"  # Specify the build tools version you need
 
     - name: Clean Buildozer
       run: |
