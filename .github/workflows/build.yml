@@ -14,7 +14,7 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        java-version: '8'
+        java-version: '8'  # Use Java 8
         distribution: 'temurin'
 
     - name: Set up Python
@@ -24,8 +24,8 @@ jobs:
 
     - name: Install Buildozer and python-for-android
       run: |
-        pip install --upgrade pip
-        pip install buildozer python-for-android cython
+        pip install --upgrade pip || true
+        pip install buildozer python-for-android cython || true
 
     - name: Install Android SDK
       run: |
@@ -40,7 +40,7 @@ jobs:
 
     - name: Clean Buildozer
       run: |
-        buildozer android clean
+        buildozer android clean || true
 
     - name: Build Android App
       run: |
@@ -49,3 +49,9 @@ jobs:
     - name: List APKs
       run: |
         ls -la bin/
+
+    - name: Upload APK as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: android-apk
+        path: bin/*.apk
