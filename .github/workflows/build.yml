@@ -54,7 +54,7 @@ jobs:
         run: |
           buildozer -v android debug | tee build_output.log
 
-      - name: List APKs
+      - name: List Files in Bin
         run: |
           ls -la bin/
 
