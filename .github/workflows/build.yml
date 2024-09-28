@@ -1,25 +1,37 @@
-name: Build
-on:
-  push:
+name: Build Android App
+
+on: [push]
 
 jobs:
-  build-android:
-    name: Build for Android
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Build with Buildozer
-        id: buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        with:
-          workdir: .  # This assumes your app files are in the root directory
-          buildozer_version: stable
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3  # Updated to v3
-        with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+    - name: Cache Python packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-python-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-python-
+
+    - name: Install Buildozer
+      run: |
+        pip install --upgrade pip
+        pip install buildozer python-for-android
+
+    - name: Clean Buildozer
+      run: |
+        buildozer android clean
+
+    - name: Build Android App
+      run: |
+        buildozer -v android debug
