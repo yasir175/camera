@@ -39,7 +39,7 @@ jobs:
           wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
           unzip sdk-tools-linux-4333796.zip
           yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
-          yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31"
+          yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31" "build-tools;32.0.0" "build-tools;33.0.0"  # Install multiple versions if necessary
 
       - name: Set Environment Variables
         run: |
@@ -59,7 +59,7 @@ jobs:
           ls -la bin/
 
       - name: Upload APK as artifact
-        uses: actions/upload-artifact@v3  # Updated to v3
+        uses: actions/upload-artifact@v3
         with:
           name: android-apk
           path: bin/*.apk
