@@ -11,6 +11,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'  # Use the appropriate version for your project
+        distribution: 'adopt'
+
+    - name: Set up Android SDK
+      run: |
+        mkdir -p $HOME/Android/Sdk
+        export ANDROID_HOME=$HOME/Android/Sdk
+        echo "sdk.dir=$ANDROID_HOME" > local.properties
+        curl -sL https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -o sdk-tools.zip
+        unzip sdk-tools.zip -d $ANDROID_HOME
+        yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+        $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" "build-tools;30.0.3" "platforms;android-30"
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
