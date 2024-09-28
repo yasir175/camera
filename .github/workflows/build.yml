@@ -35,11 +35,16 @@ jobs:
         pip install --upgrade pip || true
         pip install buildozer python-for-android cython || true
 
-    - name: Install Android SDK and Build Tools
+    - name: Install Android SDK
       run: |
-        sudo apt-get install -y android-sdk
-        echo "y" | sdkmanager --licenses  # Accept licenses
-        sdkmanager "build-tools;31.0.0"  # Specify the build tools version you need
+        sudo apt-get update
+        sudo apt-get install -y unzip
+        mkdir -p $HOME/android-sdk
+        cd $HOME/android-sdk
+        wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+        unzip sdk-tools-linux-4333796.zip
+        yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses  # Accept licenses
+        $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "build-tools;31.0.0"  # Specify the build tools version
 
     - name: Clean Buildozer
       run: |
