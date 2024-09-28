@@ -1,9 +1,6 @@
 name: Build Android App
 
-on: 
-  push:
-    branches:
-      - main  # or the branch you want to build from
+on: [push]
 
 jobs:
   build:
@@ -11,55 +8,46 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'  # Use Java 8
-          distribution: 'temurin'
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'temurin'
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
 
-      - name: Install Buildozer and python-for-android
-        run: |
-          pip install --upgrade pip || true
-          pip install buildozer python-for-android cython || true
+    - name: Install Buildozer and python-for-android
+      run: |
+        pip install --upgrade pip || true
+        pip install buildozer python-for-android cython || true
 
-      - name: Install Android SDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip wget
-          mkdir -p $HOME/android-sdk
-          cd $HOME/android-sdk
-          wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-          unzip sdk-tools-linux-4333796.zip
-          yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
-          yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31" "build-tools;32.0.0" "build-tools;33.0.0"  # Install multiple versions if necessary
+    - name: Install Android SDK
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y unzip wget
+        mkdir -p $HOME/android-sdk
+        cd $HOME/android-sdk
+        wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+        unzip sdk-tools-linux-4333796.zip
+        yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
+        $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "build-tools;31.0.0" "platforms;android-31"
 
-      - name: Set Environment Variables
-        run: |
-          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-          echo "PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
+    - name: Clean Buildozer
+      run: |
+        buildozer android clean || true
 
-      - name: Clean Buildozer
-        run: |
-          buildozer android clean || true
+    - name: Build Android App
+      run: |
+        buildozer -v android debug | tee build_output.log
 
-      - name: Build Android App
-        run: |
-          buildozer -v android debug | tee build_output.log
-
-      - name: List Files in Bin
-        run: |
-          ls -la bin/
-
-      - name: Upload APK as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: android-apk
-          path: bin/*.apk
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-android-app
+        path: bin/*.apk
