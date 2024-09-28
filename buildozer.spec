@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = Project 1
 
 # (str) Package name
-package.name = myapp
+package.name = project
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements =  python3,kivy,opencv-python,numpy
+requirements = python3==3.9.10,hostpython3==3.9.10, kivy, pillow
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -64,10 +64,10 @@ orientation = portrait
 # author = © Copyright Info
 
 # change the major version of python used by the app
-osx.python_version = 3
+osx.python_version = 3.9.10
 
 # Kivy version to use
-osx.kivy_version = 2.1.0
+osx.kivy_version = 1.9.1
 
 #
 # Android specific
@@ -107,7 +107,7 @@ fullscreen = 0
 #android.minapi = 21
 
 # (int) Android SDK version to use
-#android.sdk = 30
+#android.sdk = 20
 
 # (str) Android NDK version to use
 #android.ndk = 23b
