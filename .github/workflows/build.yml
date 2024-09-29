@@ -50,7 +50,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: my-android-app
-        path: ./build/*
-        if-no-files-found: warn
-        include-hidden-files: false
+       path: ${{ steps.buildozer.outputs.filename }}
 
