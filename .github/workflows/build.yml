@@ -65,6 +65,6 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: my-android-app
-        path: ./bin/*.apk  # This will match any APK in the bin folder
+        path: ./bin/project-0.1-debug.apk  # Exact path based on your spec file
         if-no-files-found: error  # Fail the workflow if no APK is found
         include-hidden-files: false
