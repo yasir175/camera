@@ -41,18 +41,17 @@ jobs:
         mv cmdline-tools/* ./
         rmdir cmdline-tools  # Remove the now-empty directory
 
-        # Set SDK root
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
-
-        # Accept licenses and install components
-        yes | ./bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
-        yes | ./bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
-
-    - name: Set up Android SDK environment
-      run: |
+        # Set SDK root and PATH
         echo "export ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
         echo "export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
+
+    - name: Accept SDK Licenses
+      run: |
+        yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --licenses
+
+    - name: Install SDK Components
+      run: |
+        yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
 
     - name: Clean Buildozer
       run: buildozer android clean || true
