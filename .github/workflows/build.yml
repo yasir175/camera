@@ -41,9 +41,13 @@ jobs:
         mv cmdline-tools/* ./
         rmdir cmdline-tools  # Remove the now-empty directory
 
+        # Set SDK root
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
+
         # Accept licenses and install components
-        yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk --licenses
-        yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
+        yes | ./bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
+        yes | ./bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
 
     - name: Set up Android SDK environment
       run: |
