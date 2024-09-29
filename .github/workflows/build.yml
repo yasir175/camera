@@ -14,7 +14,7 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
-        java-version: '11'  # Update to Java 11
+        java-version: '11'  # Use Java 11
         distribution: 'temurin'
 
     - name: Set up Python
@@ -29,15 +29,13 @@ jobs:
         pip install --upgrade pip
         pip install buildozer python-for-android cython
 
-    - name: Install Android SDK
+    - name: Install Android SDK Command-Line Tools
       run: |
         mkdir -p $HOME/android-sdk/cmdline-tools
         cd $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
         unzip commandlinetools-linux-7583922_latest.zip
         rm commandlinetools-linux-7583922_latest.zip
-
-        # Move extracted files to the correct structure
         mv cmdline-tools/* ./
         rmdir cmdline-tools  # Remove the now-empty directory
 
@@ -46,8 +44,7 @@ jobs:
         echo "export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
 
     - name: Accept SDK Licenses
-      run: |
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+      run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses  # Accept licenses
 
     - name: Install SDK Components
       run: |
