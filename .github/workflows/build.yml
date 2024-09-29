@@ -48,7 +48,7 @@ jobs:
 
     - name: Install SDK Components
       run: |
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-31" "build-tools;30.0.3"
 
     - name: Clean Buildozer
       run: buildozer android clean || true
