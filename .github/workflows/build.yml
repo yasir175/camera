@@ -57,12 +57,14 @@ jobs:
       run: buildozer -v android debug | tee build_output.log
 
     - name: Check for APK
-      run: ls -R ./bin  # List files to ensure APK is built
+      run: |
+        echo "Listing contents of ./bin:"
+        ls -R ./bin  # List files to ensure APK is built
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: my-android-app
-        path: ./bin/*.apk  # Ensure this path is correct
-        if-no-files-found: warn
+        path: ./bin/project-0.1-debug.apk  # Exact path based on your spec file
+        if-no-files-found: error  # Fail the workflow if no APK is found
         include-hidden-files: false
