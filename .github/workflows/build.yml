@@ -35,8 +35,13 @@ jobs:
         cd $HOME/android-sdk
         wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
         unzip sdk-tools-linux-4333796.zip
-        yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses || true
-        yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;30.0.3"
+        yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
+        yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
+
+    - name: Set up Android SDK environment
+      run: |
+        echo "export ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
 
     - name: Clean Buildozer
       run: buildozer android clean || true
@@ -51,6 +56,6 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: my-android-app
-        path: ./bin/*.apk  # Adjust this path as needed
+        path: ./bin/*.apk  # Ensure this path is correct
         if-no-files-found: warn
         include-hidden-files: false
