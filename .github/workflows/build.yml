@@ -9,16 +9,16 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3  # Updated to v3
 
     - name: Set up Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3  # Updated to v3
       with:
         java-version: '8'  # Use Java 8
         distribution: 'temurin'
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4  # Updated to v4
       with:
         python-version: '3.8'
 
@@ -46,11 +46,14 @@ jobs:
       run: |
         buildozer -v android debug | tee build_output.log
 
-   
+    - name: List files
+      run: |
+        ls -R ./bin  # List files to ensure APK is built
+
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: my-android-app
-        path: ./build/*
+        path: ./bin/*.apk  # Corrected path to typical APK output
         if-no-files-found: warn
         include-hidden-files: false
