@@ -31,18 +31,19 @@ jobs:
 
     - name: Install Android SDK
       run: |
-        mkdir -p $HOME/android-sdk
-        cd $HOME/android-sdk
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        cd $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
         unzip commandlinetools-linux-7583922_latest.zip
-        mv cmdline-tools tools
-        yes | $HOME/android-sdk/tools/bin/sdkmanager --licenses
-        yes | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
+        mv cmdline-tools/* .  # Move the unzipped contents to the expected directory
+        rm -rf cmdline-tools  # Clean up
+        yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --licenses
+        yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;30.0.3" "build-tools;35.0.0"
 
     - name: Set up Android SDK environment
       run: |
         echo "export ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-        echo "export PATH=$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
+        echo "export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
 
     - name: Clean Buildozer
       run: buildozer android clean || true
