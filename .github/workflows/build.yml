@@ -56,10 +56,10 @@ jobs:
     - name: Build Android App
       run: buildozer -v android debug | tee build_output.log
 
-    - name: Check for APK
+       - name: Check for APK
       run: |
-        echo "Listing contents of ./bin:"
-        ls -R ./bin  # List files to ensure APK is built
+        echo "Searching for APK files in ./bin:"
+        find ./bin -name "*.apk" || echo "No APK files found."
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
